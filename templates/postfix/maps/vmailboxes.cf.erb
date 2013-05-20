@@ -1,0 +1,5 @@
+<% @virtual_domain_users.each do |domain, users| %>
+<% users.each do |mailbox, settings| %>
+<%= mailbox -%>@<%= domain -%> <%= domain -%>/<%= mailbox -%>/Maildir/
+<% end %>
+<% end %>

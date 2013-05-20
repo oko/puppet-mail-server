@@ -1,0 +1,5 @@
+<% @virtual_domain_users.each do |domain, users| -%>
+<% users.each do |mailbox, settings| -%>
+<%= mailbox -%>@<%= domain -%>:<%= settings['password'] -%>:<%= @virtual_uid_gid['uid'] -%>:<%= @virtual_uid_gid['gid'] -%>::<%= @virtual_mailbox_base -%>/<%= domain -%>/<%= mailbox -%>/::
+<% end -%>
+<% end -%>

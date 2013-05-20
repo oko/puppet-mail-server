@@ -1,0 +1,50 @@
+# 2.1.7: /etc/dovecot/dovecot.conf
+# OS: Linux 3.2.0-4-amd64 x86_64 Debian 7.0 
+auth_debug = yes
+mail_location = maildir:~/Maildir
+namespace inbox {
+  inbox = yes
+  location = 
+  mailbox Drafts {
+    special_use = \Drafts
+  }
+  mailbox Junk {
+    special_use = \Junk
+  }
+  mailbox Sent {
+    special_use = \Sent
+  }
+  mailbox "Sent Messages" {
+    special_use = \Sent
+  }
+  mailbox Trash {
+    special_use = \Trash
+  }
+  prefix = 
+}
+passdb {
+  args = scheme=CRYPT username_format=%u /etc/dovecot/users
+  driver = passwd-file
+}
+passdb {
+  args = cache_key=%u%r%l dovecot
+  driver = pam
+}
+protocols = " imap"
+service auth {
+  unix_listener /var/spool/postfix/private/auth {
+    group = postfix
+    mode = 0666
+    user = postfix
+  }
+}
+ssl_cert = </etc/ssl/certs/sha512.us.cert
+ssl_key = </etc/ssl/private/sha512.us.key
+userdb {
+  args = username_format=%u /etc/dovecot/users
+  driver = passwd-file
+}
+userdb {
+  driver = passwd
+}
+
