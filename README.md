@@ -14,6 +14,12 @@ Puppet ``mail_server`` is a Puppet module to enable quick deployment of a full-s
 ## Getting It
 When cloning, it is important to make sure that the directory name is **exactly** ``mail_server``. This is because of how Puppet handles module and class naming.
 
+First, ``cd`` into your Puppet module path (either ``/usr/share/puppet/modules`` or ``/etc/puppet/modules`` by default on Ubuntu):
+    
+    cd /usr/share/puppet/modules
+
+Then clone over HTTPS or SSH
+
 ### HTTPS
     
     git clone https://github.com/Okomokochoko/puppet-mail-server.git mail_server
