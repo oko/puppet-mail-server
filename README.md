@@ -11,6 +11,17 @@ Puppet ``mail_server`` is a Puppet module to enable quick deployment of a full-s
 * Virtual mail delivery to users without system accounts on administrator-specified domains
 * Puppet 3.1+ compatible
 
+## Getting It
+When cloning, it is important to make sure that the directory name is **exactly** ``mail_server``. This is because of how Puppet handles module and class naming.
+
+### HTTPS
+    
+    git clone https://github.com/Okomokochoko/puppet-mail-server.git mail_server
+
+### SSH
+    
+    git clone git@github.com:Okomokochoko/puppet-mail-server.git mail_server
+
 ## Virtual vs Local
 **Local** mail delivery is mail delivered to system-local users. For instance, if you login to your server on SSH as ``joe``, and you set your server up to allow local delivery for the domains ``example.com`` and ``coffee.com``, mail sent to ``joe@example.com`` or ``joe@coffee.com`` will be delivered to ``/home/joe/Maildir``.
 
