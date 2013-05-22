@@ -58,12 +58,13 @@ smtpd_sasl_auth_enable = yes
 
 smtpd_helo_restrictions = 
     permit_mynetworks,
+    permit_sasl_authenticated,
     warn_if_reject reject_non_fqdn_hostname,
     reject_invalid_hostname,
     permit
 smtpd_sender_restrictions = 
-    permit_sasl_authenticated,
     permit_mynetworks,
+    permit_sasl_authenticated,
     warn_if_reject reject_non_fqdn_sender,
     reject_unknown_sender_domain,
     reject_unauth_pipelining,
@@ -73,6 +74,10 @@ smtpd_client_restrictions =
     reject_rbl_client zen.spamhaus.org,
     reject_rbl_client blackholes.easynet.nl,
     reject_rbl_client dnsbl.njabl.org
+smtpd_relay_restrictions =
+    permit_mynetworks,
+    permit_sasl_authenticated,
+    reject
 smtpd_recipient_restrictions = 
     reject_unauth_pipelining,
     permit_mynetworks,
