@@ -38,8 +38,8 @@ service auth {
     user = postfix
   }
 }
-ssl_cert = </etc/ssl/certs/sha512.us.cert
-ssl_key = </etc/ssl/private/sha512.us.key
+ssl_cert = </etc/ssl/certs/<%= @server_fqdn %>.cert
+ssl_key = </etc/ssl/private/<%= @server_fqdn %>.key 
 userdb {
   args = username_format=%u /etc/dovecot/users
   driver = passwd-file
