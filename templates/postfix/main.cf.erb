@@ -77,7 +77,7 @@ smtpd_client_restrictions =
 smtpd_relay_restrictions =
     permit_mynetworks,
     permit_sasl_authenticated,
-    reject
+    reject_unauth_destination
 smtpd_recipient_restrictions = 
     reject_unauth_pipelining,
     permit_mynetworks,
