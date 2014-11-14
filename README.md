@@ -78,7 +78,7 @@ To use this configuration, you'd then run:
 
     $ puppet apply my-mail-server.pp
 
-Owing to the arbitrary ordering of hash entries, running multiple times may cause files to change even though you haven't changed anything.
+Future applications of the manifest may result in updated files as templates loop through their data hashes due to the arbitrary ordering of hash entries in Ruby.
 
 ## Generating Passwords
 To generate a password, use the ``doveadm`` tool from Ubuntu's ``dovecot-imapd`` package:
@@ -88,7 +88,7 @@ To generate a password, use the ``doveadm`` tool from Ubuntu's ``dovecot-imapd``
 ``SHA512-CRYPT`` generates a secure SHA512 hash of the given password. There are many other schemes on Dovecot's [wiki](http://wiki2.dovecot.org/Authentication/PasswordSchemes).
 
 ## Disclaimer
-This project isn't perfect. I'd like to expand its capabilities a bit in the future, but that's contingent on a variety of factors. What I'm trying to say here is that you should exercise due caution in your use of it, as you should any piece of software. If you find a bug or have a killer feature idea, please submit it to the project's GitHub Issues tracker.
+This is a release of Puppet configuration code that I've successfully used in production, but there is, as always, a chance that there are bugs or missing features. You should carefully examine the source as provided before using it on your own servers. If you find a bug or have a killer feature idea, please submit it to the project's GitHub Issues tracker.
 
 ## LICENSE
 
