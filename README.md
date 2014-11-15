@@ -5,7 +5,7 @@ Puppet ``mail_server`` is a Puppet module to enable quick deployment of a full-s
 
 ## Features
 
-* Runs on Ubuntu (should also run on Debian; not yet tested)
+* Runs on Ubuntu (tested and functional on Ubuntu 14.04 as of November 15, 2014)
 * Single-file basic configuration of [Postfix](http://www.postfix.org/) and [Dovecot](http://www.dovecot.org/)
 * Local mail delivery to users with system accounts on administrator-specified domains
 * Virtual mail delivery to users without system accounts on administrator-specified domains
@@ -36,7 +36,7 @@ Then clone over HTTPS or SSH
 Currently, virtual configuration is file-based only (using the ``hash:`` scheme in Postfix and the ``userdb passwd-file`` scheme in Dovecot). Eventually I'm hoping to expand that to support database-backed virtual configuration.
 
 ### A WARNING
-You **cannot** share a domain between local and virtual delivery. Postfix will handle it one way or the other, but not both. Keep this in mind.
+You **cannot** share a domain between local and virtual delivery. Postfix will deliver mail for a domain for either local *OR* virtual users, but not both.
 
 ## A Sample Configuration:
 Let's take a look at a sample configuration. We'll call it ``my-mail-server.pp``.
@@ -83,9 +83,20 @@ Future applications of the manifest may result in updated files as templates loo
 ## Generating Passwords
 To generate a password, use the ``doveadm`` tool from Ubuntu's ``dovecot-imapd`` package:
     
-    doveadm pw -s SHA512-CRYPT
+    doveadm pw -s SSHA256.HEX
 
-``SHA512-CRYPT`` generates a secure SHA512 hash of the given password. There are many other schemes on Dovecot's [wiki](http://wiki2.dovecot.org/Authentication/PasswordSchemes).
+``SSHA256.HEX`` generates a salted SHA256 hexadecimal hash of the given password. There are many other schemes on Dovecot's [wiki](http://wiki2.dovecot.org/Authentication/PasswordSchemes).
+
+## Logging In
+IMAP and SMTP are configured to use STARTTLS on the normal client ports (143 for IMAP, 587 for SMTP). SSL-only ports (993 for IMAP, 465 for SMTP) are also available.
+
+When configuring account settings, by default most mail clients will use only the local part (***user***@domain.com) for IMAP and SMTP logins. This works properly for local mail account delivery, but not for virtual domain accounts. Virtual account users must configure their mail client to use their full email address (user@domain.com) as the login username.
+
+You can check what is being sent as the username for failed logins by looking in `/var/log/mail.log`:
+
+    Nov 15 12:00:00 mail-server dovecot: imap-login: Aborted login (auth failed, 1 attempts in 5 secs): user=<localpartonly>, method=PLAIN, rip=192.168.1.100, lip=192.168.1.1, TLS: Disconnected, session=<RaNdOmSeSsIoNkEy>
+
+If `localpartonly` is a user in a virtual mail domain, then (assuming their password is correct) that user can likely fix their logins by updating their client settings to use their full email address (i.e., `localpartonly@virtualdomain.com`) as their IMAP/SMTP username instead.
 
 ## Disclaimer
 This is a release of Puppet configuration code that I've successfully used in production, but there is, as always, a chance that there are bugs or missing features. You should carefully examine the source as provided before using it on your own servers. If you find a bug or have a killer feature idea, please submit it to the project's GitHub Issues tracker.
